@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.cmilby.chessbackend.repository.chess.ChessDao">
+
+	<resultMap id="activeGameResultMap" type="me.cmilby.chessbackend.domain.chess.ActiveGame">
+		<id property="id" column="ID" />
+		<result property="startDttm" column="START_DTTM" />
+		<result property="gameFormat" column="GAME_FORMAT" />
+		<result property="currentMove" column="CURRENT_MOVE" />
+	</resultMap>
+
+	<insert id="addActiveGame" parameterType="string">
+		INSERT INTO ACTIVE_GAMES ( ID, START_DTTM ) VALUES ( #{id}, cast(sys_extract_utc(sysdate) as DATE) )
+	</insert>
+
+	<select id="getJoinableActiveGames" resultMap="activeGameResultMap">
+		SELECT * FROM ACTIVE_GAMES
+	</select>
+</mapper>

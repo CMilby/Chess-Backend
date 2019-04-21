@@ -1,0 +1,27 @@
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.cmilby.chessbackend.repository.user.UserDao">
+
+	<resultMap id="userResultMap" type="me.cmilby.chessbackend.domain.user.User">
+		<id property="username" column="USERNAME" />
+		<result property="password" column="PASSWORD" />
+		<result property="firstName" column="FIRST_NAME" />
+		<result property="lastName" column="LAST_NAME" />
+	</resultMap>
+
+	<resultMap id="roleResultMap" type="me.cmilby.chessbackend.domain.user.Role">
+		<id property="roleId" column="ID" />
+		<result property="name" column="ROLE_NAME" />
+	</resultMap>
+
+	<select id="getUserWithUsername" resultMap="userResultMap">
+		SELECT * FROM USER u WHERE u.USERNAME=#{username}
+	</select>
+
+	<select id="getRoleWithUsername" resultMap="roleResultMap">
+		SELECT * FROM ROLE r WHERE r.ID = (
+			SELECT u.ROLE_ID FROM USER_ROLE u WHERE u.USERNAME=#{username}
+		)
+	</select>
+</mapper>
