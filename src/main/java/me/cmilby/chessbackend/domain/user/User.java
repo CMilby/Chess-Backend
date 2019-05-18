@@ -2,12 +2,15 @@
  * @Author: Craig Milby 
  * @Date: 2019-04-20 15:03:31 
  * @Last Modified by: Craig Milby
- * @Last Modified time: 2019-04-20 19:03:16
+ * @Last Modified time: 2019-05-18 09:29:37
  */
 package me.cmilby.chessbackend.domain.user;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -19,15 +22,32 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  */
 public class User {
 
+	@JsonProperty ( "Username" )
 	private String username;
+
+	@JsonProperty ( "Email" )
+	private String email;
+
+	@JsonProperty ( "Password" )
 	private String password;
+
+	@JsonProperty ( value = "FirstName", required = false )
 	private String firstName;
+
+	@JsonProperty ( value = "LastName", required = false )
 	private String lastName;
 
+	@JsonIgnore
 	private List < GrantedAuthority > authorities;
 
 	public User ( ) {
 
+	}
+
+	public User ( String p_username, String p_email, String p_password ) {
+		this.username = p_username;
+		this.email = p_email;
+		this.password = p_password;
 	}
 
 	/**

@@ -6,6 +6,7 @@
 	<resultMap id="userResultMap" type="me.cmilby.chessbackend.domain.user.User">
 		<id property="username" column="USERNAME" />
 		<result property="password" column="PASSWORD" />
+		<result property="email" column="EMAIL" />
 		<result property="firstName" column="FIRST_NAME" />
 		<result property="lastName" column="LAST_NAME" />
 	</resultMap>
@@ -15,13 +16,43 @@
 		<result property="name" column="ROLE_NAME" />
 	</resultMap>
 
-	<select id="getUserWithUsername" resultMap="userResultMap">
+	<select id="getAllUsers" resultMap="userResultMap" parameterType="string">
+		SELECT * FROM USER
+	</select>
+
+	<select id="getUserWithUsername" resultMap="userResultMap" parameterType="string">
 		SELECT * FROM USER u WHERE u.USERNAME=#{username}
 	</select>
 
-	<select id="getRoleWithUsername" resultMap="roleResultMap">
+	<select id="getUserWithEmail" resultMap="userResultMap" parameterType="string">
+		SELECT * FROM USER u WHERE u.email=#{email}
+	</select>
+
+	<select id="getRoleWithUsername" resultMap="roleResultMap" parameterType="string">
 		SELECT * FROM ROLE r WHERE r.ID = (
-			SELECT u.ROLE_ID FROM USER_ROLE u WHERE u.USERNAME=#{username}
+			SELECT u.ROLE_ID FROM USER_ROLE u WHERE u.USER_ID = (
+				SELECT e.ID FROM USER e WHERE e.USERNAME = #{username}
+			)
 		)
 	</select>
+
+	<select id="userWithUsernameExists" resultType="boolean">
+		SELECT CASE WHEN EXISTS ( SELECT 1 FROM USER u WHERE u.USERNAME=#{username} ) THEN 1 ELSE 0 END FROM DUAL
+	</select>
+
+	<select id="userWithEmailExists" resultType="boolean">
+		SELECT CASE WHEN EXISTS ( SELECT 1 FROM USER u WHERE u.email=#{email} ) THEN 1 ELSE 0 END FROM DUAL
+	</select>
+
+	<select id="getMaxId" resultType="long">
+		SELECT MAX(u.ID) FROM USER u
+	</select>
+
+	<insert id="insertUser" parameterType="map">
+		INSERT INTO USER ( ID, USERNAME, PASSWORD ) VALUES ( #{id}, #{user.username}, #{user.password} )
+	</insert>
+
+	<insert id="insertUserDefaultRole" parameterType="long">
+		INSERT INTO USER_ROLE ( USER_ID, ROLE_ID ) VALUES ( #{id}, 2 )
+	</insert>
 </mapper>
