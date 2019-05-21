@@ -2,7 +2,7 @@
  * @Author: Craig Milby 
  * @Date: 2019-04-20 14:45:54 
  * @Last Modified by: Craig Milby
- * @Last Modified time: 2019-04-20 20:05:17
+ * @Last Modified time: 2019-05-19 11:32:01
  */
 package me.cmilby.chessbackend.repository.chess;
 
@@ -20,6 +20,10 @@ import me.cmilby.chessbackend.repository.annotation.ChessRepository;
 public interface ChessDao {
 
 	void addActiveGame ( @Param ( "id" ) String p_id );
+
+	boolean activeGameWithIdExists ( @Param ( "id" ) String p_id );
+
+	void addUserToActiveGame ( @Param ( "gameId" ) String p_gameId, @Param ( "userId" ) Long p_userId );
 
 	List < ActiveGame > getJoinableActiveGames ( );
 }

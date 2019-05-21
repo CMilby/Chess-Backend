@@ -4,7 +4,8 @@
 <mapper namespace="me.cmilby.chessbackend.repository.user.UserDao">
 
 	<resultMap id="userResultMap" type="me.cmilby.chessbackend.domain.user.User">
-		<id property="username" column="USERNAME" />
+		<id property="id" column="ID" />
+		<result property="username" column="USERNAME" />
 		<result property="password" column="PASSWORD" />
 		<result property="email" column="EMAIL" />
 		<result property="firstName" column="FIRST_NAME" />
@@ -36,11 +37,11 @@
 		)
 	</select>
 
-	<select id="userWithUsernameExists" resultType="boolean">
+	<select id="userWithUsernameExists" parameterType="string" resultType="boolean">
 		SELECT CASE WHEN EXISTS ( SELECT 1 FROM USER u WHERE u.USERNAME=#{username} ) THEN 1 ELSE 0 END FROM DUAL
 	</select>
 
-	<select id="userWithEmailExists" resultType="boolean">
+	<select id="userWithEmailExists" parameterType="string" resultType="boolean">
 		SELECT CASE WHEN EXISTS ( SELECT 1 FROM USER u WHERE u.email=#{email} ) THEN 1 ELSE 0 END FROM DUAL
 	</select>
 

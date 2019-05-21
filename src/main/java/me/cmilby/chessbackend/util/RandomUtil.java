@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * RandomUtil
@@ -21,5 +22,9 @@ public class RandomUtil {
 		byte [ ] r = new byte [ 16 ];
 		random.nextBytes ( r );
 		return Base64.encodeBase64String ( r );
+	}
+
+	public static String randomAlphanumeric ( int p_length ) {
+		return RandomStringUtils.randomAlphanumeric ( p_length );
 	}
 }

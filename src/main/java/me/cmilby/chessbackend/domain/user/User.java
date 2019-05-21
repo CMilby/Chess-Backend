@@ -2,7 +2,7 @@
  * @Author: Craig Milby 
  * @Date: 2019-04-20 15:03:31 
  * @Last Modified by: Craig Milby
- * @Last Modified time: 2019-05-18 09:29:37
+ * @Last Modified time: 2019-05-19 11:31:35
  */
 package me.cmilby.chessbackend.domain.user;
 
@@ -21,6 +21,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  * User
  */
 public class User {
+
+	@JsonIgnore
+	private Long id;
 
 	@JsonProperty ( "Username" )
 	private String username;
@@ -48,6 +51,22 @@ public class User {
 		this.username = p_username;
 		this.email = p_email;
 		this.password = p_password;
+	}
+
+	public Long getId ( ) {
+		return id;
+	}
+
+	public void setId ( Long id ) {
+		this.id = id;
+	}
+
+	public String getEmail ( ) {
+		return email;
+	}
+
+	public void setEmail ( String email ) {
+		this.email = email;
 	}
 
 	/**

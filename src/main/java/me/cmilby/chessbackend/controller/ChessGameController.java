@@ -2,38 +2,42 @@
  * @Author: Craig Milby 
  * @Date: 2019-04-20 19:12:11 
  * @Last Modified by: Craig Milby
- * @Last Modified time: 2019-04-22 18:05:23
+ * @Last Modified time: 2019-05-19 11:42:33
  */
 package me.cmilby.chessbackend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import me.cmilby.chessbackend.repository.chess.ChessDao;
-import me.cmilby.chessbackend.util.RandomUtil;
+import me.cmilby.chessbackend.domain.user.User;
+import me.cmilby.chessbackend.domain.util.ApiResponse;
+import me.cmilby.chessbackend.service.ChessGameService;
+import me.cmilby.chessbackend.service.UserService;
 
 /**
  * ChessGameController
  */
 @RestController
-@RequestMapping ( "/play" )
 public class ChessGameController {
 
 	@Autowired
-	private ChessDao chessDao;
+	private ChessGameService chessGameService;
 
-	@PostMapping ( "/send-game-creation-request" )
-	public String sendGameCreationRequest ( ) {
-		String gameId = RandomUtil.randomBase64 ( );
-		chessDao.addActiveGame ( gameId );
-		return gameId;
-	}
+	@Autowired
+	private UserService userService;
 
-	@PostMapping ( "/join/{id}" )
-	public String joinGame ( @PathVariable ( "id" ) String p_gameId ) {
-		return "success";
+	@PostMapping ( "/game/create/url" )
+	public ResponseEntity < ? > sendGameCreationRequest ( ) {
+		User currentUser = userService.getCurrentUser ( );
+
+		String gameId = null;
+		if ( ( gameId = chessGameService.createNewGame ( currentUser ) ) != null ) {
+			return new ResponseEntity <> ( new ApiResponse ( true, "Game created", gameId ), HttpStatus.OK );
+		}
+
+		return new ResponseEntity <> ( new ApiResponse ( false, "Could not create game" ), HttpStatus.OK );
 	}
 }

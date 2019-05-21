@@ -14,6 +14,14 @@
 		INSERT INTO ACTIVE_GAMES ( ID, START_DTTM ) VALUES ( #{id}, cast(sys_extract_utc(sysdate) as DATE) )
 	</insert>
 
+	<select id="activeGameWithIdExists" parameterType="string" resultType="boolean">
+		SELECT CASE WHEN EXISTS ( SELECT 1 FROM ACTIVE_GAMES a WHERE a.ID=#{id} ) THEN 1 ELSE 0 END FROM DUAL
+	</select>
+
+	<insert id="addUserToActiveGame" parameterType="map">
+		INSERT INTO ACTIVE_GAMES_USER ( GAME_ID, USER_ID ) VALUES ( #{gameId}, #{userId} )
+	</insert>
+
 	<select id="getJoinableActiveGames" resultMap="activeGameResultMap">
 		SELECT * FROM ACTIVE_GAMES
 	</select>
