@@ -52,4 +52,9 @@ public class ChessGameServiceImpl implements ChessGameService {
 		User user = userDao.getUserWithUsername ( p_username );
 		addUserToGame ( p_gameId, user, p_color );
 	}
+
+	@Override
+	public boolean isPlayerAlreadyInGame ( String p_gameId, Long p_userId ) {
+		return chessDao.playerIsInActiveGame ( p_gameId, p_userId );
+	}
 }

@@ -9,6 +9,8 @@ package me.cmilby.chessbackend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,9 +37,22 @@ public class ChessGameController {
 
 		String gameId = null;
 		if ( ( gameId = chessGameService.createNewGame ( currentUser ) ) != null ) {
+			chessGameService.addUserToGame ( gameId, currentUser, "light" );
 			return new ResponseEntity <> ( new ApiResponse ( true, "Game created", gameId ), HttpStatus.OK );
 		}
 
 		return new ResponseEntity <> ( new ApiResponse ( false, "Could not create game" ), HttpStatus.OK );
+	}
+
+	@GetMapping ( "/game/can-player-join/{gameId}" )
+	public ResponseEntity < ? > canPlayerJoinGame ( @PathVariable ( "gameId" ) String p_gameId ) {
+		User currentUser = userService.getCurrentUser ( );
+
+		if ( chessGameService.isPlayerAlreadyInGame ( p_gameId, currentUser.getId ( ) ) ) {
+			return new ResponseEntity <> ( new ApiResponse ( false, "Could not join game", "Non-Joinable" ),
+					HttpStatus.OK );
+		}
+
+		return new ResponseEntity <> ( new ApiResponse ( true, "Player can join game", "Joinable" ), HttpStatus.OK );
 	}
 }

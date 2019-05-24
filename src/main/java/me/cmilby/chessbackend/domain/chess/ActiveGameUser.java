@@ -10,22 +10,22 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * ActiveGamePlayer
+ * ActiveGameUser
  */
-public class ActiveGamePlayer {
+public class ActiveGameUser {
 
-	private Integer gameId;
-	private Integer playerId;
+	private String gameId;
+	private Long userId;
 	private String color;
 
-	public ActiveGamePlayer ( ) {
+	public ActiveGameUser ( ) {
 
 	}
 
 	/**
 	 * @return the gameId
 	 */
-	public Integer getGameId ( ) {
+	public String getGameId ( ) {
 		return gameId;
 	}
 
@@ -33,23 +33,23 @@ public class ActiveGamePlayer {
 	 * @param gameId
 	 *                   the gameId to set
 	 */
-	public void setGameId ( Integer gameId ) {
+	public void setGameId ( String gameId ) {
 		this.gameId = gameId;
 	}
 
 	/**
-	 * @return the playerId
+	 * @return the userId
 	 */
-	public Integer getPlayerId ( ) {
-		return playerId;
+	public Long getUserId ( ) {
+		return userId;
 	}
 
 	/**
 	 * @param playerId
-	 *                     the playerId to set
+	 *                     the userId to set
 	 */
-	public void setPlayerId ( Integer playerId ) {
-		this.playerId = playerId;
+	public void setUserId ( Long userId ) {
+		this.userId = userId;
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class ActiveGamePlayer {
 
 	@Override
 	public String toString ( ) {
-		return "ActiveGamePlayer [color=" + color + ", gameId=" + gameId + ", playerId=" + playerId + "]";
+		return "ActiveGameUser [color=" + color + ", gameId=" + gameId + ", userId=" + userId + "]";
 	}
 
 	@Override

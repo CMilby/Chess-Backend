@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import me.cmilby.chessbackend.domain.auth.SigninRequest;
 import me.cmilby.chessbackend.domain.auth.SignupRequest;
+import me.cmilby.chessbackend.domain.user.User;
 import me.cmilby.chessbackend.domain.util.ApiResponse;
 import me.cmilby.chessbackend.service.UserService;
 import me.cmilby.chessbackend.service.SecurityService;
@@ -55,7 +56,8 @@ public class AuthController {
 		String jwtToken = null;
 		if ( ( jwtToken = securityService.autoLogin ( p_signin.getUsernameOrEmail ( ),
 				p_signin.getPassword ( ) ) ) != null ) {
-			return new ResponseEntity <> ( new ApiResponse ( true, jwtToken ), HttpStatus.OK );
+			User user = userService.getUserByUsernameOrEmail ( p_signin.getUsernameOrEmail ( ) );
+			return new ResponseEntity <> ( new ApiResponse ( true, jwtToken, user ), HttpStatus.OK );
 		}
 
 		return new ResponseEntity <> ( new ApiResponse ( false, "Unable to signin user" ), HttpStatus.OK );

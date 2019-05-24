@@ -31,7 +31,7 @@ public class ChessSocketController {
 	@SendTo ( "/topic/chess/game/{gameId}/join" )
 	public String joinGame ( @DestinationVariable ( "gameId" ) String p_gameId, String p_token ) {
 		String username = tokenProvider.getUsernameFromJWT ( p_token );
-		chessGameService.addUserByUsernameToGame ( p_gameId, username, "light" );
+		chessGameService.addUserByUsernameToGame ( p_gameId, username, "dark" );
 		return "success";
 	}
 

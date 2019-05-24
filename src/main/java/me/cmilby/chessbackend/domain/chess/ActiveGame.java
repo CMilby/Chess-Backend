@@ -22,7 +22,7 @@ public class ActiveGame {
 	private String gameFormat;
 	private String currentMove;
 
-	private List < ActiveGamePlayer > players;
+	private List < ActiveGameUser > players;
 
 	public ActiveGame ( ) {
 
@@ -91,7 +91,7 @@ public class ActiveGame {
 	/**
 	 * @return the players
 	 */
-	public List < ActiveGamePlayer > getPlayers ( ) {
+	public List < ActiveGameUser > getPlayers ( ) {
 		return players;
 	}
 
@@ -99,7 +99,7 @@ public class ActiveGame {
 	 * @param players
 	 *                    the players to set
 	 */
-	public void setPlayers ( List < ActiveGamePlayer > players ) {
+	public void setPlayers ( List < ActiveGameUser > players ) {
 		this.players = players;
 	}
 

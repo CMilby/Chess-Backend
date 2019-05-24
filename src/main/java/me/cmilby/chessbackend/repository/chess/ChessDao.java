@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import me.cmilby.chessbackend.domain.chess.ActiveGame;
+import me.cmilby.chessbackend.domain.chess.ActiveGameUser;
 import me.cmilby.chessbackend.repository.annotation.ChessRepository;
 
 /**
@@ -25,5 +26,9 @@ public interface ChessDao {
 
 	void addUserToActiveGame ( @Param ( "gameId" ) String p_gameId, @Param ( "userId" ) Long p_userId );
 
+	boolean playerIsInActiveGame ( @Param ( "gameId" ) String p_gameId, @Param ( "userId" ) Long p_userId );
+
 	List < ActiveGame > getJoinableActiveGames ( );
+
+	List < ActiveGameUser > getAllActiveGameUsers ( );
 }

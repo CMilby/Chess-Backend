@@ -157,8 +157,8 @@ public class User {
 
 	@Override
 	public String toString ( ) {
-		return "User [authorities=" + authorities + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", password=" + password + ", username=" + username + "]";
+		return "User [firstName=" + firstName + ", lastName=" + lastName + ", password=" + password + ", username="
+				+ username + ", id=" + id + "]";
 	}
 
 	@Override

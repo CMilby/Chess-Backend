@@ -18,4 +18,6 @@ public interface ChessGameService {
 	void addUserToGame ( String p_gameId, User p_user, String p_color );
 
 	void addUserByUsernameToGame ( String p_gameId, String p_username, String p_color );
+
+	boolean isPlayerAlreadyInGame ( String p_gameId, Long p_userId );
 }

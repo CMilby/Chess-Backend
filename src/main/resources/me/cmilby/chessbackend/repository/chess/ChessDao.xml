@@ -10,6 +10,12 @@
 		<result property="currentMove" column="CURRENT_MOVE" />
 	</resultMap>
 
+	<resultMap id="activeGameUserResultMap" type="me.cmilby.chessbackend.domain.chess.ActiveGameUser">
+		<id property="gameId" column="GAME_ID" />
+		<id property="userId" column="USER_ID" />
+		<result property="color" column="COLOR" />
+	</resultMap>
+
 	<insert id="addActiveGame" parameterType="string">
 		INSERT INTO ACTIVE_GAMES ( ID, START_DTTM ) VALUES ( #{id}, cast(sys_extract_utc(sysdate) as DATE) )
 	</insert>
@@ -21,6 +27,14 @@
 	<insert id="addUserToActiveGame" parameterType="map">
 		INSERT INTO ACTIVE_GAMES_USER ( GAME_ID, USER_ID ) VALUES ( #{gameId}, #{userId} )
 	</insert>
+
+	<select id="playerIsInActiveGame" parameterType="map" resultType="boolean">
+		SELECT CASE WHEN EXISTS ( SELECT 1 FROM ACTIVE_GAMES_USER u WHERE u.GAME_ID = #{gameId} AND u.USER_ID = #{userId} ) THEN 1 ELSE 0 END FROM DUAL
+	</select>
+
+	<select id="getAllActiveGameUsers" resultMap="activeGameUserResultMap">
+		SELECT * FROM ACTIVE_GAMES_USER
+	</select>
 
 	<select id="getJoinableActiveGames" resultMap="activeGameResultMap">
 		SELECT * FROM ACTIVE_GAMES
